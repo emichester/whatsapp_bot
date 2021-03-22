@@ -1,24 +1,26 @@
 # whatsapp_bot
 Automation whatsapp DON'T use it for spam
 
-## Steps to use
+## Setup
 
 ```bash
-git clone https://github.com/emichester/whatsapp_bot.git
-cd whatsapp_bot
-mkdir config && touch config/data.py
-mkdir -p config/cache && touch config/cache/session.ini
+$ git clone https://github.com/emichester/whatsapp_bot.git
+$ cd whatsapp_bot
+$ mkdir config && touch config/data.py
+$ mkdir -p config/session && touch config/session/session.ini
+$ echo "
+[SESSION]
+session_id = ''
+executor_url = ''
+" > config/session/session.ini
+$ chmod +x bot_whatsapp_firefox_init.py
+$ chmod +x bot_whatsapp_firefox_instance.py
 ```
 
 Go to your favorite web browser and find the user data folder, [here](https://support.mozilla.org/en-US/kb/profiles-where-firefox-stores-user-data) you have the firefox default directory. Once you have it:
 
 ```bash
-echo "USER_DATA_PATH = 'path/to/your/user/data/folder'" > config/data.py
-echo "
-[SESSION]
-session_id = ''
-executor_url = ''
-" > config/cache/session.ini
+$ echo "USER_DATA_PATH = 'path/to/your/user/data/folder'" > config/data.py
 ```
 
 ### If you use Firefox
@@ -26,13 +28,32 @@ executor_url = ''
 Download _"geckodriver"_ from [here](https://github.com/mozilla/geckodriver/releases). Then:
 
 ```bash
-tar -xvzf geckodriver*
-chmod +x geckodriver
-sudo mv geckodriver /usr/bin/
+$ tar -xvzf geckodriver*
+$ chmod +x geckodriver
+$ sudo mv geckodriver /usr/bin/
 ```
 
 [//]: # "https://github.com/mozilla/geckodriver/releases"
 [//]: # "https://askubuntu.com/questions/870530/how-to-install-geckodriver-in-ubuntu"
+[//]: # "https://tarunlalwani.com/post/reusing-existing-browser-session-selenium/"
+
+## Usage
+
+Open a bash (_main bash_) in the folder, install the _requirements.txt_ and do the following.
+
+```bash
+$ ./bot_whatsapp_firefox_init.py
+```
+
+Scan the QR code (I couldn't automate this step), and in another bash.
+
+```bash
+$ ./bot_whatsapp_firefox_instance.py
+```
+
+Modify the instance for the purpose you want to use it.
+
+**IMPORTANT:** to close the webdriver just press enter in the _main bash_, this will automatically close the webdriver. Or you can call the _close_father_webdriver(drive)_ method to it.
 
 ## Extra
 

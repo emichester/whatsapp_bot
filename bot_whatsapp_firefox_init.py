@@ -1,6 +1,4 @@
-"""
-https://tarunlalwani.com/post/reusing-existing-browser-session-selenium/
-"""
+#!/usr/bin/env python3
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -9,7 +7,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 # secure imports
 import configparser
-from config.data import USER_DATA_PATH, CACHE_PATH
+from config.data import USER_DATA_PATH, SESSION_PATH
 
 def create_driver_session(session_id, executor_url):
     from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
@@ -44,7 +42,7 @@ options.add_argument('--disable-infobars')
 options.add_argument('--disable-extensions')
 options.add_argument('--profile-directory=Default')
 options.add_argument("--disable-plugins-discovery")
-options.add_argument("--user-data-dir=%s"%CACHE_PATH)   # setear ruta local path
+options.add_argument("--user-data-dir=%s"%SESSION_PATH)   # setear ruta local path
 
 browser = webdriver.Firefox(firefox_options=options)
 browser.get(base_url)
@@ -53,11 +51,13 @@ session_id = browser.session_id
 executor_url = browser.command_executor._url
 
 config = configparser.ConfigParser()
-config.read("config/cache/session.ini")
+config.read("config/session/session.ini")
 config['SESSION']['session_id'] = session_id
 config['SESSION']['executor_url'] = executor_url
 
-with open('config/cache/session.ini', 'w') as configfile:
+with open('config/session/session.ini', 'w') as configfile:
     config.write(configfile)
 
 input() # scan the qr
+
+browser.close()

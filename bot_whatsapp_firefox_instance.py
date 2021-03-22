@@ -1,6 +1,4 @@
-"""
-https://tarunlalwani.com/post/reusing-existing-browser-session-selenium/
-"""
+#!/usr/bin/env python3
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -9,7 +7,9 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 # secure imports
 import configparser
-from config.data import USER_DATA_PATH, CACHE_PATH
+# import utilities
+from utilities.buttons import find_contact
+from utilities.text_boxes import search_contact, type_chat_message
 
 def create_driver_session(session_id, executor_url):
     from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
@@ -35,28 +35,32 @@ def create_driver_session(session_id, executor_url):
 
     return new_driver
 
+def send_message(driver, contact, message):
+    """
+    Args:
+        contact : str : name of contact or group
+        message : str
+    """
+    TIME_WAIT = 3
+    search_contact(driver, contact)
+    sleep(TIME_WAIT)
+    type_chat_message(driver, message)
+
+def close_father_webdriver(driver):
+    driver.close() # better just press ENTER at the main bash
+
 def main():
     config = configparser.ConfigParser()
-    config.read("config/cache/session.ini")
+    config.read("config/session/session.ini")
     session_id =  config['SESSION']['session_id']
     executor_url = config['SESSION']['executor_url']
     driver = create_driver_session(session_id, executor_url)
 
-# continuar por aquí ################################
+    contact = "CONSULTARRRR"
+    message = "Test final de mensajes"
 
-contact = "CONSULTARRRR"
-message = "Esto es un mensaje de prueba"
+    send_message(driver, contact, message)
 
-search_xpath = "/html/body/div/div/div/div[3]/div/div[1]/div/label/div/div[2]"
-search = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, search_xpath)))
-search.clear()
-search.send_keys(contact)
-
-contact_xpath = "/html/body/div/div/div/div[3]/div/div[2]/div[1]/div/div/div[1]"
-contact_button = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, contact_xpath)))
-contact_button.click()
-
-typebox_xpath = "/html/body/div/div/div/div[4]/div/footer/div[1]/div[2]/div/div[2]"
-typebox = WebDriverWait(browser, 5).until(EC.presence_of_element_located((By.XPATH, typebox_xpath)))
-typebox.send_keys(message)
-typebox.send_keys(Keys.ENTER)
+if __name__ == "__main__":
+    main()
+    

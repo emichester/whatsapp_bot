@@ -8,3 +8,9 @@ bot_whatsapp_firefox.py.original
 
 ## logs
 geckodriver.log
+
+## cache
+__pycache__/
+utilities/__pycache__/
+config/__pycache__/
+config/session/__pycache__/
