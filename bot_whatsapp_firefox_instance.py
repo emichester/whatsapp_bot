@@ -61,7 +61,7 @@ def main():
 
     base_url = 'https://web.whatsapp.com/'
     driver.get(base_url)
-    sleep(5)
+    sleep(10)
     
     for contact,message in messages.items():
         send_message(driver, contact, message)
