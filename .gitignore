@@ -1,6 +1,7 @@
 # main
 ## config and personal data
 config/
+messages.py
 
 ## test
 bot_whatsapp_chrome.py

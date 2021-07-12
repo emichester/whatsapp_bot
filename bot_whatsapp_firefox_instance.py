@@ -57,11 +57,17 @@ def main():
     executor_url = config['SESSION']['executor_url']
     driver = create_driver_session(session_id, executor_url)
 
-    contact = "CONSULTARRRR"
-    message = "Test final de mensajes"
+    from messages import messages
+
+    base_url = 'https://web.whatsapp.com/'
+    driver.get(base_url)
+    sleep(5)
     
-    send_message(driver, contact, message)
+    for contact,message in messages.items():
+        send_message(driver, contact, message)
+        sleep(1)
+    
+    driver.get('https://www.duckduckgo.com')
 
 if __name__ == "__main__":
     main()
-    

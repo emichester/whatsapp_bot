@@ -23,7 +23,6 @@ def search_contact(driver, contact):
     search.clear()
     search.send_keys(contact)
     search.send_keys(Keys.ENTER)
-
 def type_chat_message(driver, message):
     ## find id
     divs = driver.find_elements_by_tag_name('div')
