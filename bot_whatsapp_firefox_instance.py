@@ -60,7 +60,7 @@ def main():
     from messages import messages, send_time
 
     t = localtime()
-    while (t[3]-send_time[3]<0 or t[4]-send_time[3]<0):
+    while (t[3]-send_time[3]<0 or t[4]-send_time[4]<0):
         sleep(1)
         t=localtime()
 		
