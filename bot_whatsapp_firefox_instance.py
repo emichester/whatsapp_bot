@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from time import sleep
+from time import sleep, localtime
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -57,8 +57,13 @@ def main():
     executor_url = config['SESSION']['executor_url']
     driver = create_driver_session(session_id, executor_url)
 
-    from messages import messages
+    from messages import messages, send_time
 
+    t = localtime()
+    while (t[3]-send_time[3]<0 or t[4]-send_time[3]<0):
+        sleep(1)
+        t=localtime()
+		
     base_url = 'https://web.whatsapp.com/'
     driver.get(base_url)
     sleep(30)
